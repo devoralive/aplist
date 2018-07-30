@@ -4,13 +4,20 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "body-parser": "^1.18.3",
     "express": "^4.16.3",
+    "json-formatter-js": "^2.2.0",
     "pug": "^2.0.3",
-    "socket.io": "^2.1.1"
+    "socket.io": "^2.1.1",
+    "stylus": "^0.54.5"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.3"
   }
 }

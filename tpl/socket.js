@@ -1,4 +1,5 @@
-var socket = io();
+import JSONFormatter from './vendor/json-formatter-js/dist/json-formatter.js'
+const socket = io();
 
 socket.on('income_method', method => {
   $('#method').html(method)
