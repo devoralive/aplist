@@ -1,17 +1,13 @@
 import store from './store'
 import socketIOClient from 'socket.io-client'
+import { addOutcome, addIncome } from './actions/middleware'
 
 const socket = socketIOClient(endpoint);
 
-socket.on('income_method', method => {
-  store.dispatch('', { method });
+socket.on('outcome', req => {
+  
+  store.dispatch(addOutcome(req));
 });
-socket.on('income_path', path => {
-  setState({ path });
-});
-socket.on('income_headers', headers => {
-  setState({ headers });
-});
-socket.on('income_body', body => {
-  setState({ body });
+socket.on('income', resp => {
+  store.dispatch(addIncome(resp));
 });
