@@ -1,42 +1,46 @@
 import React, { Component } from 'react'
-import './App.css'
+import './../style/App.css'
 import socketIOClient from 'socket.io-client'
 import ReactJson from 'react-json-view'
+
+const endpoint = "http://localhost:8080"
 
 class App extends Component {
   constructor() {
     super();
+
     this.state = {
-      endpoint: "http://localhost:8080",
       method: 'GET',
       path: '/',
       headers: {},
-      body: {}
+      body: {},
+      endpoint
     };
-    this.socket = socketIOClient(this.state.endpoint);
+
+    this.socket = socketIOClient(endpoint);
   }
 
   render() {
     // const socket = socketIOClient(this.state.endpoint);
     this.socket.on('income_method', method => {
       // $('#method').html(method);
-      this.setState({method});
+      this.setState({ method });
       console.log(method);
     });
     this.socket.on('income_path', path => {
       // $('#path').html(path);
-      this.setState({path});
+      this.setState({ path });
       console.log(path);
     });
     this.socket.on('income_headers', headers => {
       // $('#headers').html(headers);
-      this.setState({headers});
+      this.setState({ headers });
       console.log(headers);
     });
     this.socket.on('income_body', body => {
       // $('#body').html(body);
       console.log(body);
-      this.setState({body: body});
+      this.setState({ body });
     });
     return (
       <div className="App">

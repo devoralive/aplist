@@ -1,10 +1,11 @@
 const express = require('express')
 const app = express()
-const http = require('http').Server(app);
-const pug = require('pug');
-const io = require('socket.io')(http);
-const port = process.env.PORT || 8080;
+const http = require('http').Server(app)
+const pug = require('pug')
+const io = require('socket.io')(http)
+const port = process.env.PORT || 8080
 const bodyParser = require('body-parser')
+const request = require('request')
 
 // parse forms
 app.use(bodyParser.urlencoded({ extended: true }))
@@ -17,31 +18,31 @@ app.use(bodyParser.raw())
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }))
 
-io.on('connection', function(socket){
-  console.log('a user connected');
-});
+io.on('connection', function (socket) {
+  console.log('a user connected')
+  io.emit('server_running', `http://localhost:${port}`)
+})
 
-// app.use (function(req, res, next) {
-//   let data = '';
-//   req.setEncoding('utf8');
-//   req.on('data', function(chunk) { 
-//      data = data + chunk;
-//   });
+app.all('/*', function ({ method, path, headers, body, ...req }, res) {
+  io.emit('outcome', { method, path, headers, body })
 
-//   req.on('end', function() {
-//       req.body = data;
-//       next();
-//   });
-// });
-
-app.all('/*', function (req, res) {
-  io.emit('income_method', req.method)
-  io.emit('income_path', req.path)
-  io.emit('income_headers', req.headers)
-  io.emit('income_body', req.body)
-
-  console.log(req.body)
-  res.send('Ok !')
+  request({
+    method,
+    url: 'http://calapi.inadiutorium.cz/' + path
+  },
+  (err, response, body) => {
+    io.emit('income', { response: response.statusCode, header: response.header, body })
+    res.writeHead(response.statusCode, response.header)
+    res.write(body)
+    res.end()
+  //  res.send(body)
+  })
+//  request[method.toLowerCase()]({ url:'http://calapi.inadiutorium.cz/' + path }, (err, response, body) => {
+//    console.log(err)
+//    io.emit('income', { response: response.statusCode, header: response.header, body })
+//    res.writeHead(response.statusCode, response.header)
+//    res.send(body)
+//  })
 })
 
 http.listen(port, () => console.log(`Example app listening on port ${port}!`))
