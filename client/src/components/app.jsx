@@ -1,16 +1,11 @@
 import React, {Fragment} from 'react'
 import Response from './response'
 import Request from './request'
+import History from './history'
 import logo from './../assets/images/logo.gif'
 import './../assets/styles/app.css'
 
 const endpoint = "http://localhost:8080"
-
-const History = () => (
-  <Fragment>
-    History
-  </Fragment>
-)
 
 const App = () => (
   <div className="wrapper">

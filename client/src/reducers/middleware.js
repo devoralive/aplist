@@ -1,9 +1,7 @@
-import { ADD_OUTCOME, ADD_INCOME } from './../actions/middleware'
+import { ADD_OUTCOME, ADD_INCOME, NEW_TRAFFIC } from './../actions/middleware'
 
-const NEW_TRAFIC = 'NEW_TRAFIC'
-
-const defaultTrafic = {request: {}, response: {}}
-const trafic = (state = defaultTrafic, action) => {
+const defaultTraffic = {request: {}, response: {}}
+const traffic = (state = defaultTraffic, action) => {
   switch (action.type) {
     case ADD_OUTCOME:
       const request = action.payload
@@ -16,13 +14,13 @@ const trafic = (state = defaultTrafic, action) => {
   }
 }
 
-export const network = (state = { current: defaultTrafic, history: []}, action) => {
+export const network = (state = { current: defaultTraffic, history: []}, action) => {
   switch (action.type) {
     case ADD_OUTCOME:
     case ADD_INCOME:
-      return Object.assign({}, state, {current: trafic(state.current, action)})
-    case NEW_TRAFIC:
-      return { curent: undefined, history: [
+      return Object.assign({}, state, {current: traffic(state.current, action)})
+    case NEW_TRAFFIC:
+      return { current: defaultTraffic, history: [
         ...state.history,
         state.current
       ]}

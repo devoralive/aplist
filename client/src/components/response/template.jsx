@@ -1,8 +1,8 @@
-import React, { Fragment } from 'react'
+import React, { Fragment as _  } from 'react'
 import Json from './../json'
 
 const Response = ({ code, headers, body }) => (
-  <Fragment>
+  <_>
     <div>
       <div className="code">{ code }</div>
     </div>
@@ -11,7 +11,7 @@ const Response = ({ code, headers, body }) => (
           collapsed="true" />
     <Json src={ body }
           name="body" />
-  </Fragment>
+  </_>
 )
 
 export default Response

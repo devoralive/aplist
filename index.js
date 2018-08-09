@@ -24,6 +24,7 @@ io.on('connection', function (socket) {
 })
 
 app.all('/*', function ({ method, path, headers, body, ...req }, res) {
+  io.emit('new')
   io.emit('outcome', { method, path, headers, body })
 
   request({

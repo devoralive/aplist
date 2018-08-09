@@ -1,3 +1,8 @@
+export const NEW_TRAFFIC = Symbol('NEW_TRAFFIC')
+export const newTraffic = () => ({
+  type: NEW_TRAFFIC
+})
+
 export const ADD_INCOME = Symbol('ADD_INCOME')
 export const addIncome = request => ({
   type: ADD_INCOME,
