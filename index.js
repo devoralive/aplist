@@ -31,7 +31,7 @@ app.all('/*', function ({ method, path, headers, body, ...req }, res) {
     url: 'http://calapi.inadiutorium.cz/' + path
   },
   (err, response, body) => {
-    io.emit('income', { response: response.statusCode, header: response.header, body })
+    io.emit('income', { response: response.statusCode, headers: response.headers, body })
     res.writeHead(response.statusCode, response.header)
     res.write(body)
     res.end()

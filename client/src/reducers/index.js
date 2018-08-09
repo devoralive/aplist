@@ -1,12 +1,7 @@
-const App = (state = {}, action) => {
-  switch (action.type) {
-      case 'truc':
-        return Object.assign({}, state, {
-          accordionDatabaseOpen: !state.accordionDatabaseOpen
-        })
-      default:
-          return state
-  }
-}
+import { combineReducers } from 'redux'
 
-export default App
+import middleware from './middleware'
+
+export default combineReducers({
+  middleware
+})
