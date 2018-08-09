@@ -1,26 +1,18 @@
-import React from 'react'
-import ReactJson from 'react-json-view'
+import React, { Fragment } from 'react'
+import Json from './../json'
 
 const Request = ({ method, path, headers, body }) => (
-  <div className="response">
+  <Fragment>
     <div>
-      <div className="method">{ method }</div>
-      <div className="path">{ path }</div>
+      <span className="method">{ method }</span>
+      <span className="path">{ path }</span>
     </div>
-    <ReactJson src={ headers }
-                name="headers"
-                iconStyle="square" 
-                theme="paraiso" 
-                indentWidth="2"
-                displayDataTypes="false"
-                displayObjectSize="false"
-                collapsed="true" />
-    <ReactJson src={ body }
-                name="body"
-                iconStyle="square" 
-                theme="paraiso" 
-                indentWidth="2" />
-  </div>
+    <Json src={ headers }
+          name="headers"
+          collapsed="true" />
+    <Json src={ body }
+          name="body" />
+  </Fragment>
 )
 
 export default Request
