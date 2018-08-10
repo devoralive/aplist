@@ -27,9 +27,15 @@ app.all('/*', function ({ method, path, headers, body, ...req }, res) {
   io.emit('new')
   io.emit('outcome', { method, path, headers, body })
 
-  const url = 'https://blank.org/' + path
-  request({ method, url, 'rejectUnauthorized': false }, (err, response, body) => {
-    const cheatedBody = body.replace('</body>', `<script>alert("coucou blanck");setTimeout(function() { window.location.href = "${url}"}, 500)</script></body>`)
+  const cheatedHeaders = headers;
+  delete(cheatedHeaders.host)
+  delete(cheatedHeaders.origin)
+  delete(cheatedHeaders.referer)
+  const url = 'https://www.linkedin.com/' + path
+  console.log(cheatedHeaders)
+
+  request({ method, 'rejectUnauthorized': false, url }, (err, response, body) => {
+    const cheatedBody = body.replace('</body>', `<script>alert("coucou blank");//setTimeout(function() { window.location.href = "${url}"}, 500)</script></body>`)
     
     io.emit('income', { response: response.statusCode, headers: response.headers, body })
     res.writeHead(response.statusCode, response.header)

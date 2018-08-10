@@ -1,7 +1,7 @@
 import React, { Fragment as _  } from 'react'
 import Json from './../json'
 
-const Response = ({ code, headers, body }) => (
+const Response = ({ code, headers, jsonBody, rawBody }) => (
   <_>
     <div>
       <div className="code">{ code }</div>
@@ -9,8 +9,8 @@ const Response = ({ code, headers, body }) => (
     <Json src={ headers }
           name="headers"
           collapsed="true" />
-    <Json src={ body }
-          name="body" />
+    { jsonBody && <Json src={ jsonBody } name="body" /> }
+    { !jsonBody && <div>{ rawBody }</div> }
   </_>
 )
 

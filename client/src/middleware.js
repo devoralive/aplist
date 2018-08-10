@@ -2,7 +2,7 @@ import store from './store'
 import socketIOClient from 'socket.io-client'
 import { addOutcome, addIncome, newTraffic } from './actions/middleware'
 
-const socket = socketIOClient('http://localhost:8080')
+const socket = socketIOClient('http://localhost:1337')
 
 socket.on('new', () => {
   console.log('new')
