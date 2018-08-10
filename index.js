@@ -3,7 +3,7 @@ const app = express()
 const http = require('http').Server(app)
 const pug = require('pug')
 const io = require('socket.io')(http)
-const port = process.env.PORT || 8080
+const port = process.env.PORT || 1337
 const bodyParser = require('body-parser')
 const request = require('request')
 
@@ -27,23 +27,15 @@ app.all('/*', function ({ method, path, headers, body, ...req }, res) {
   io.emit('new')
   io.emit('outcome', { method, path, headers, body })
 
-  request({
-    method,
-    url: 'http://calapi.inadiutorium.cz/' + path
-  },
-  (err, response, body) => {
+  const url = 'https://blank.org/' + path
+  request({ method, url, 'rejectUnauthorized': false }, (err, response, body) => {
+    const cheatedBody = body.replace('</body>', `<script>alert("coucou blanck");setTimeout(function() { window.location.href = "${url}"}, 500)</script></body>`)
+    
     io.emit('income', { response: response.statusCode, headers: response.headers, body })
     res.writeHead(response.statusCode, response.header)
-    res.write(body)
+    res.write(cheatedBody)
     res.end()
-  //  res.send(body)
   })
-//  request[method.toLowerCase()]({ url:'http://calapi.inadiutorium.cz/' + path }, (err, response, body) => {
-//    console.log(err)
-//    io.emit('income', { response: response.statusCode, header: response.header, body })
-//    res.writeHead(response.statusCode, response.header)
-//    res.send(body)
-//  })
 })
 
 http.listen(port, () => console.log(`Example app listening on port ${port}!`))
